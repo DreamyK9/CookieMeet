@@ -1,4 +1,6 @@
-import * as e from "./errors/event";
+import * as E from "./errors/event";
+import { NotImplementedError } from "./errors";
+import { generateUniqueId } from "./commons";
 // A class to represent discord events
 //! WARNING: The code in this file is partially untested and overall WIP!
 
@@ -10,11 +12,16 @@ export default class DiscordEvent {
     private _channel: string;
     private _participants: string;
     private _creator: string;
+    private _dateOfCreation: Date;
+    private _timeIsSet: boolean;
+    private _dateIsSet: boolean;
 
     constructor(creatorName: string) {
         this._id = generateUniqueId(10);
         this._creator = creatorName;
-        this._datetime = new Date();
+        this._datetime = new Date(0);
+        this._dateIsSet = false;
+        this._timeIsSet = false;
     }
     get id(): string {
         return this._id;
@@ -30,7 +37,7 @@ export default class DiscordEvent {
 
     set description(value: string) {
         if (value.length > 1000) {
-            throw new e.EventDescriptionTooLongError;
+            throw new E.EventDescriptionTooLongError;
         }
         this._description = value.trim();
     }
@@ -39,18 +46,68 @@ export default class DiscordEvent {
     }
 
     //* Date format: YYYY-MM-DD hh:mm:ss
-    set datetime(value: string) {
-        if (isNaN(Date.parse(value))) {
-            throw new e.EventDateFormatError;
+    set datetime(value: string | Date) {
+        if (typeof value == "string") {
+            validateDateString(value);
         }
-        if (Date.parse(value) <= Date.now()) {
-            throw new e.EventDatePastError;
+        const date = new Date(value);
+
+        if (date.getTime() <= Date.now()) {
+            throw new E.EventDatePastError;
+        }
+        this._datetime = date;
+        this._dateIsSet = true;
+        this._timeIsSet = true;
+    }
+    get datetime(): Date {
+        return this._datetime;
+    }
+
+    set date(value: string | Date) {
+        if (typeof value == "string") {
+            validateDateString(value);
+        }
+        const date = new Date(value);
+        date.setHours(0, 0, 0, 0);
+
+        // if the time is already set, check if the new date would lie in the past
+        if (this._timeIsSet && date.getTime() + this.time.getTime() <= Date.now()) {
+            throw new E.EventDatePastError;
         }
 
-        this._datetime = new Date(value);
+        this.datetime.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
+        this._dateIsSet = true;
     }
-    get datetime(): string {
-        return this._datetime.toString();
+    get date(): Date {
+        const date = new Date(this._datetime);
+        date.setHours(0, 0, 0, 0);
+        return date;
+    }
+
+    set time(value: string | Date) {
+        if (typeof value == "string") {
+            validateDateString(value);
+        }
+        const time = new Date(`1970 ${value}`);
+        time.setFullYear(0, 0, 0);
+
+        // if the date is already set, check if the new time would lie in the past
+        if (this._dateIsSet && time.getTime() + this._datetime.getTime() <= Date.now()) {
+            throw new E.EventDatePastError;
+        }
+        this._datetime.setHours(time.getHours(), time.getMinutes(), time.getSeconds());
+        this._timeIsSet = true;
+    }
+    get time(): Date {
+        const time = new Date(this._datetime);
+        time.setFullYear(0, 0, 0);
+        return time;
+    }
+
+    set channel(value: string) {
+        // TODO: validate channel
+        throw new NotImplementedError("Channel validation not yet implemented!");
+        this._channel = value.trim();
     }
 }
 
@@ -58,36 +115,18 @@ export default class DiscordEvent {
 /* -------------------------- validation functions -------------------------- */
 function validateEventName(name) {
     if (name.length > 100) {
-        throw new e.EventNameTooLongError;
+        throw new E.EventNameTooLongError;
     }
     if (name.length < 2) {
-        throw new e.EventNameTooShortError;
+        throw new E.EventNameTooShortError;
     }
     if (/[@#:,()<>[\]{}/|~&^\-/]/.test(name)) {
-        throw new e.SpecialCharactersInEventNameError;
+        throw new E.SpecialCharactersInEventNameError;
     }
 }
 
-/* ----------------------------- other functions ---------------------------- */
-
-// TODO: export to file to save existing IDs between sessions
-const existingIds: string[] = [];
-
-// ! might need to export this function if it is used in other modules
-function generateUniqueId(length: number): string {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-';
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+function validateDateString(date: string) {
+    if (isNaN(Date.parse(`0 ${date}`))) {
+        throw new E.EventDateFormatError;
     }
-    if (result in existingIds) {
-        result = generateUniqueId(length);
-    }
-    existingIds.push(result);
-    return result;
 }
-
-
-/* ------------------------------ Event Errors ------------------------------ */
-// TODO: export to own module (to prevent future circular dependencies)

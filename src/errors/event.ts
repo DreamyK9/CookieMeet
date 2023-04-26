@@ -44,7 +44,7 @@ export class EventDateError extends EventError {
 
 export class EventDateFormatError extends EventDateError {
     constructor() {
-        super("The provided date is not formatted correctly!");
+        super("The provided date/time is not formatted correctly!");
     }
 }
 
