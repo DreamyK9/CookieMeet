@@ -1,0 +1,26 @@
+{
+  "name": "cookie-meet",
+  "version": "0.1.0",
+  "description": "",
+  "main": "bot.js",
+  "dependencies": {
+    "discord.js": "^14.9.0",
+    "dotenv": "^16.0.3"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "@typescript-eslint/parser": "^5.59.0",
+    "eslint": "^8.39.0",
+    "typescript": "^5.0.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "watch": "tsc -w",
+    "start": "node dist/bot.js",
+    "refresh": "npm run build && npm run start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
