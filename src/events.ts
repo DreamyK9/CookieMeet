@@ -1,4 +1,4 @@
-import * as E from "./errors/event";
+import * as E from "./errors/events";
 import { NotImplementedError } from "./errors";
 import { generateUniqueId } from "./commons";
 // A class to represent discord events
@@ -10,7 +10,7 @@ export default class DiscordEvent {
     private _description: string;
     private _datetime: Date;
     private _channel: string;
-    private _participants: string;
+    private _participants: string[];
     private _creator: string;
     private _dateOfCreation: Date;
     private _timeIsSet: boolean;
@@ -108,6 +108,33 @@ export default class DiscordEvent {
         // TODO: validate channel
         throw new NotImplementedError("Channel validation not yet implemented!");
         this._channel = value.trim();
+    }
+    get channel(): string {
+        throw new NotImplementedError("The channel property is not yet implemented!");
+        return this._channel;
+    }
+
+    set participants(value: string[]) {
+        // TODO: validate participants
+        throw new NotImplementedError("Participant validation is not yet implemented!");
+        this._participants = value;
+    }
+    get participants(): string[] {
+        throw new NotImplementedError("The participants property is not yet implemented!");
+        return this._participants;
+    }
+
+    get creator(): string {
+        return this._creator;
+    }
+    get dateOfCreation(): Date {
+        return this._dateOfCreation;
+    }
+
+    public create() {
+        this._dateOfCreation = new Date();
+        throw new NotImplementedError("Event creation is not yet implemented!");
+        // TODO: Call the discord API to create the event
     }
 }
 
