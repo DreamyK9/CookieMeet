@@ -1,6 +1,9 @@
-import * as E from "./errors/event";
+import * as E from "./errors/events";
 import { NotImplementedError } from "./errors";
 import { generateUniqueId } from "./commons";
+import { VoiceBasedChannel } from "discord.js";
+import { GuildMember } from "discord.js";
+
 // A class to represent discord events
 //! WARNING: The code in this file is partially untested and overall WIP!
 
@@ -9,8 +12,8 @@ export default class DiscordEvent {
     private _name: string;
     private _description: string;
     private _datetime: Date;
-    private _channel: string;
-    private _participants: string;
+    private _channel: VoiceBasedChannel;
+    private _participants: GuildMember[];
     private _creator: string;
     private _dateOfCreation: Date;
     private _timeIsSet: boolean;
@@ -28,7 +31,15 @@ export default class DiscordEvent {
     }
 
     set name(value: string) {
-        validateEventName(value);
+        if (value.length > 100) {
+            throw new E.EventNameTooLongError;
+        }
+        if (value.length < 2) {
+            throw new E.EventNameTooShortError;
+        }
+        if (/[@#:,()<>[\]{}/|~&^\-/]/.test(value)) {
+            throw new E.SpecialCharactersInEventNameError;
+        }
         this._name = value.trim();
     }
     get name(): string {
@@ -104,24 +115,33 @@ export default class DiscordEvent {
         return time;
     }
 
-    set channel(value: string) {
-        // TODO: validate channel
-        throw new NotImplementedError("Channel validation not yet implemented!");
-        this._channel = value.trim();
+    // TODO: implement channel validation somewhere else (in conversations?)
+    set channel(value: VoiceBasedChannel) {
+        this._channel = value;
     }
-}
+    get channel(): VoiceBasedChannel {
+        return this._channel;
+    }
 
+    // TODO: implement participant validation somewhere else (in conversations?)
+    set participants(value: GuildMember[]) {
+        this._participants = value;
+    }
+    get participants(): GuildMember[] {
+        return this._participants;
+    }
 
-/* -------------------------- validation functions -------------------------- */
-function validateEventName(name) {
-    if (name.length > 100) {
-        throw new E.EventNameTooLongError;
+    get creator(): string {
+        return this._creator;
     }
-    if (name.length < 2) {
-        throw new E.EventNameTooShortError;
+    get dateOfCreation(): Date {
+        return this._dateOfCreation;
     }
-    if (/[@#:,()<>[\]{}/|~&^\-/]/.test(name)) {
-        throw new E.SpecialCharactersInEventNameError;
+
+    public create() {
+        this._dateOfCreation = new Date();
+        throw new NotImplementedError("Event creation is not yet implemented!");
+        // TODO: Call the discord API to create the event
     }
 }
 
