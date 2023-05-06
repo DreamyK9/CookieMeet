@@ -1,9 +1,12 @@
 // This module contains a set of classes to represent conversations between the bot and a user (in a thread)
 // They are created by any command, that entails a process of multiple question/answer steps
-import { generateUniqueId, log } from "./commons";
 import { ChannelType, Guild, Message, ThreadChannel, User, VoiceBasedChannel } from "discord.js";
+import { generateUniqueId, log } from "./commons";
 import DiscordEvent from "./events";
 import { createConversationThread } from "./abstracts";
+
+//! WARNING: The code in this file is partially untested and overall WIP!
+// TODO: thoruoghly test this class
 
 export abstract class Conversation {
     private _id: string;

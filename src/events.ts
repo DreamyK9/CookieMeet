@@ -1,10 +1,10 @@
 import * as E from "./errors/events";
-import { NotImplementedError } from "./errors";
 import { generateUniqueId } from "./commons";
 import { Guild, GuildScheduledEventEntityType, GuildScheduledEventPrivacyLevel, User, VoiceBasedChannel } from "discord.js";
 
 // A class to represent discord events
 //! WARNING: The code in this file is partially untested and overall WIP!
+// TODO: thoruoghly test this class
 
 export default class DiscordEvent {
     private _id: string;
@@ -23,8 +23,6 @@ export default class DiscordEvent {
     private _startDateIsSet: boolean;
     private _endTimeIsSet: boolean;
     private _endDateIsSet: boolean;
-
-
 
     constructor(creatorName: string, guild: Guild) {
         this._id = generateUniqueId(10);
@@ -228,7 +226,8 @@ export default class DiscordEvent {
     }
 
 
-    // TODO: implement channel validation somewhere else (in conversations?)
+    // TODO: Decide whether to move validation for the channel and participants
+    // ? Since the guild of the event is now known by the event, should the error handling for channels and participants be moved here from EventConversations?
     set channel(value: VoiceBasedChannel) {
         this._channel = value;
     }
@@ -236,7 +235,6 @@ export default class DiscordEvent {
         return this._channel;
     }
 
-    // TODO: implement participant validation somewhere else (in conversations?)
     set participants(value: User[]) {
         this._participants = value;
     }
