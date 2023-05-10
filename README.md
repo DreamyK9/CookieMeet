@@ -5,7 +5,7 @@
 It is a discord bot designed to help create and manage events, but most of all to remind people of the events they signed up for. It is written in TypeScript/JavaScript and uses the discord.js library.
 
 #### How to use?
-1. Ckeck, that ypu have **NodeJS** installed! For this, run `node -v`. If it prints out a version number, you're good. Else download the newest version of Node
+1. Ckeck, that ypu have **NodeJS** installed! For this, run `node -v`. If it prints out a version number, you're good. Else download the newest version of Node from their [website](https://nodejs.org)
 2. Clone the repository to your preferred environment (like a folder on your PC)!
 3. Install the dependencies with `npm install`!
 4. Create a file named **".env"** in the project's root directory and add the variable `DISCORD_TOKEN = your_discord_bot_token`. Just replace the discord bot token with that of your bot!
