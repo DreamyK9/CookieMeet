@@ -4,7 +4,7 @@ import { ChannelType, Guild, Message, ThreadChannel, User, VoiceBasedChannel } f
 import { generateUniqueId, log } from "./commons";
 import DiscordEvent from "./events";
 import { createConversationThread } from "./abstracts";
-
+import * as EventErrors from "./errors/events";
 //! WARNING: The code in this file is partially untested and overall WIP!
 // TODO: thoruoghly test this class
 
@@ -126,10 +126,22 @@ export class EventConversation extends Conversation {
         this.thread.send("What should I call your Event?");
         const answer = await this.collectMessage();
 
-        //! WARNING: This throws errors if the name is out of parameters!
-        // TODO: Handle errors by catching them and sending an error message to the user
+        //! WARNING: The error catch in this is only a template!
+        // TODO: Finish error catching
         log("Received event name from user: " + answer.content);
-        this._event.name = answer.content;
+
+        try {
+            this._event.name = answer.content;
+        } catch (error) {
+            if (error instanceof EventErrors.EventNameTooLongError) {
+                this.thread.send("The name you provided is too long! Please try again!");
+                this._2_name();
+            }
+            if (error instanceof EventErrors.EventNameTooShortError) {
+                this.thread.send("The name you provided is too short! Please try again!");
+                this._2_name();
+            }
+        }
     }
 
     private async _3_startTime() {
