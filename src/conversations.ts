@@ -141,6 +141,10 @@ export class EventConversation extends Conversation {
                 this.thread.send("The name you provided is too short! Please try again!");
                 this._2_name();
             }
+            if (error instanceof EventErrors.SpecialCharactersInEventNameError){
+                this.thread.send("An event name cannot contain any of the following characters: @#:,()<>[]{}|~&^\\-/");
+                this._2_name();
+            }
         }
     }
 
@@ -150,7 +154,19 @@ export class EventConversation extends Conversation {
 
         //! WARNING: This throws errors if the date is out of parameters!
         // TODO: Handle errors by catching them and sending an error message to the user
-        this._event.startDatetime = answer.content;
+        try {
+            this._event.startDatetime = answer.content;
+        } catch (error) {
+            if (error instanceof EventErrors.EventDateFormatError) {
+                this.thread.send("The provided date/time is not formatted correctly!");
+                this._3_startTime();
+            }
+            if (error instanceof EventErrors.EventDatePastError) {
+                this.thread.send("The date/time is alrady passed!");
+                this._3_startTime();
+            }
+        }
+        
     }
 
     private async _4_endTime() {
@@ -159,7 +175,22 @@ export class EventConversation extends Conversation {
 
         //! WARNING: This throws errors if the date is out of parameters!
         // TODO: Handle errors by catching them and sending an error message to the user
-        this._event.endDatetime = answer.content;
+        try {
+            this._event.endDatetime = answer.content;
+        } catch (error) {
+            if (error instanceof EventErrors.EventDateFormatError) {
+                this.thread.send("The provided date/time is not formatted correctly!");
+                this._4_endTime();
+            }
+            if (error instanceof EventErrors.EventDatePastError) {
+                this.thread.send("The date/time is alrady passed!");
+                this._4_endTime();
+            }
+            if (error instanceof EventErrors.EventEndsBeforeStartError){
+                this.thread.send("The end date/time of an event must lie after the start date!");
+                this._4_endTime();
+            }
+        }
     }
 
     private async _5_description() {
@@ -168,7 +199,14 @@ export class EventConversation extends Conversation {
 
         //! WARNING: This throws errors if the description is out of parameters!
         // TODO: Handle errors by catching them and sending an error message to the user
-        this._event.description = answer.content;
+        try{
+            this._event.description = answer.content;
+        } catch (error) {
+            if (error instanceof EventErrors.EventDescriptionTooLongError) {
+                this.thread.send("The description you provided is too long! Please try again")
+                this._5_description();
+            }
+        }
     }
 
     private async _6_location() {
