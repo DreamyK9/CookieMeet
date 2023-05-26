@@ -86,7 +86,7 @@ export default class DiscordEvent {
     }
     get startDatetime(): Date {
         if (! (this._startDateIsSet && this._startTimeIsSet)) {
-            throw new E.EventDateAccessError("The start date/time of this event has not been set yet!");
+            throw new E.EventDateAccessDeniedError("The start date/time of this event has not been set yet!");
         }
         return this._startDatetime;
     }
@@ -112,7 +112,7 @@ export default class DiscordEvent {
     }
     get startDate(): Date {
         if (! this._startDateIsSet) {
-            throw new E.EventDateAccessError("The start date of this event has not been set yet!");
+            throw new E.EventDateAccessDeniedError("The start date of this event has not been set yet!");
         }
         const date = new Date(this._startDatetime);
         date.setHours(0, 0, 0, 0);
@@ -138,7 +138,7 @@ export default class DiscordEvent {
     }
     get startTime(): Date {
         if (! this._startTimeIsSet) {
-            throw new E.EventDateAccessError("The start time of this event has not been set yet!");
+            throw new E.EventDateAccessDeniedError("The start time of this event has not been set yet!");
         }
         const time = new Date(this._startDatetime);
         time.setFullYear(1970, 1, 1);
@@ -165,7 +165,7 @@ export default class DiscordEvent {
     }
     get endDatetime(): Date {
         if (! (this._endDateIsSet && this._endTimeIsSet)) {
-            throw new E.EventDateAccessError("The end date/time of this event has not been set yet!");
+            throw new E.EventDateAccessDeniedError("The end date/time of this event has not been set yet!");
         }
         return this._endDatetime;
     }
@@ -191,7 +191,7 @@ export default class DiscordEvent {
     }
     get endDate(): Date {
         if (! this._endDateIsSet) {
-            throw new E.EventDateAccessError("The end date of this event has not been set yet!");
+            throw new E.EventDateAccessDeniedError("The end date of this event has not been set yet!");
         }
         const date = new Date(this._endDatetime);
         date.setHours(0, 0, 0, 0);
@@ -218,7 +218,7 @@ export default class DiscordEvent {
     }
     get endTime(): Date {
         if (! this._endTimeIsSet) {
-            throw new E.EventDateAccessError("The end time of this event has not been set yet!");
+            throw new E.EventDateAccessDeniedError("The end time of this event has not been set yet!");
         }
         const time = new Date(this._endDatetime);
         time.setFullYear(1970, 1, 1);

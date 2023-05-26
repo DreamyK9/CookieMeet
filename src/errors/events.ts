@@ -60,7 +60,7 @@ export class EventEndsBeforeStartError extends EventDateError {
     }
 }
 
-export class EventDateAccessError extends EventDateError {
+export class EventDateAccessDeniedError extends EventDateError {
     constructor(message) {
         super(message);
     }
