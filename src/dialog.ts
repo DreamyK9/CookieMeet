@@ -1,13 +1,16 @@
 interface DialogData {
     [key: string]: string[];
 }
+interface ErrorResponseData {
+    [key: string]: string[][];
+}
 
 // ! WARNING: Untested Code!
-class DialogManager {
+export class DialogManager {
     private responses: DialogData;
-    private errors: DialogData;
+    private errors: ErrorResponseData;
 
-    constructor(responses: DialogData, errors: DialogData) {
+    constructor(responses: DialogData, errors: ErrorResponseData) {
         this.responses = responses;
         this.errors = errors;
     }
@@ -20,11 +23,11 @@ class DialogManager {
         return all[Math.floor(Math.random() * all.length)];
     }
 
-    getErrorAll(key: string): string[] {
-        return this.errors[key];
+    getErrorAll(key: string, level: number): string[] {
+        return this.errors[level][key];
     }
-    getRandomError(key: string): string {
-        const all = this.getErrorAll(key);
+    getRandomError(key: string, level: number): string {
+        const all = this.getErrorAll(key, level);
         return all[Math.floor(Math.random() * all.length)];
     }
 }
