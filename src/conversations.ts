@@ -282,16 +282,16 @@ export class EventConversation extends Conversation {
                 log(`Successfully created an event for ${this.user.username}`);
                 this.thread.send("Ok, dann ist dein Event so gut wie erstellt. Viel spaß!");
                 this._event.create();
-                this.thread.setLocked(true, "");
-                this.thread.setArchived(true, "");
+                this.thread.setLocked(true, "event successfully created");
+                this.thread.setArchived(true, "event successfully created");
                 break;
             } else if (["no", "n", "nein", "nope", "ney"].find(item => {return userMsg === item;})) {
                 // TODO: Give the option to edit the event
                 log(`Conversation with user ${this.user.username} was canceled by the user`);
                 this.thread.send("Na dann wird das nichts mehr.");
                 this.thread.send("Ich breche den Kontakt ab!");
-                this.thread.setLocked(true, "");
-                this.thread.setArchived(true, "");
+                this.thread.setLocked(true, "event creation canceled");
+                this.thread.setArchived(true, "event creation canceled");
                 break;
             } else {
                 this.thread.send("Ich verstehe es nicht. Ist das ein ja oder ein nein?")
