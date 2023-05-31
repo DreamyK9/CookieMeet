@@ -50,6 +50,18 @@ export class EventDateFormatError extends EventDateError {
 
 export class EventDatePastError extends EventDateError {
     constructor() {
-        super("The date of an event must lie in the future!");
+        super("The date/time of an event must lie in the future!");
+    }
+}
+
+export class EventEndsBeforeStartError extends EventDateError {
+    constructor() {
+        super("The end date/time of an event must lie after the start date!");
+    }
+}
+
+export class EventDateAccessError extends EventDateError {
+    constructor(message) {
+        super(message);
     }
 }
