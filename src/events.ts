@@ -268,13 +268,12 @@ export default class DiscordEvent {
      * Returns an overview of the event's properties in a human-readable format
      * @returns {string} A string containing the event's properties
      */
-        return `Event ID: ${this.id}
-        Name: ${this.name}
-        Description: ${this.description}
-        Date: ${this.startDatetime}
-        Channel: ${this.channel}
-        Participants: ${this.participants.map((user) => `<@${user.id}>`).join(", ")}
-        `;
+        return `**Event ID:** ${this.id}
+**Name:** ${this.name}
+**Description:** ${this.description}
+**Date:** ${this.startDatetime}
+**Channel:** ${this.channel}
+**Participants:** ${this.participants.map((user) => `<@${user.id}>`).join(", ")}`;
     }
 }
 

@@ -1,18 +1,14 @@
-interface DialogData {
-    [key: string]: string[];
-}
-interface ErrorResponseData {
-    [key: string]: string[][];
-}
 
 // ! WARNING: Untested Code!
 export class DialogManager {
-    private responses: DialogData;
-    private errors: ErrorResponseData;
+    private responses: Record<string, string[]>;
+    private errors: Record<string, string[][]>;
+    private angerLevel: object;
 
-    constructor(responses: DialogData, errors: ErrorResponseData) {
+    constructor(responses: Record<string, string[]>, errors: Record<string, string[][]>) {
         this.responses = responses;
         this.errors = errors;
+        this.angerLevel = [];
     }
 
     getResponseAll(key: string): string[] {
@@ -24,9 +20,9 @@ export class DialogManager {
     }
 
     getErrorAll(key: string, level: number): string[] {
-        return this.errors[level][key];
+        return this.errors[key][level];
     }
-    getRandomError(key: string, level: number): string {
+    getErrorRandom(key: string, level: number): string {
         const all = this.getErrorAll(key, level);
         return all[Math.floor(Math.random() * all.length)];
     }
@@ -140,6 +136,13 @@ export const eventCreationDialog = new DialogManager({
         ],
         [
             "Das Ende ist nahe... noch näher als der Anfang! Was das heißt? Du. bist. nicht. witzig.",
+        ]
+    ],
+    "EventDescriptionTooLong": [
+        [
+            "Das ist ein bisschen lang, findest du nicht? Versuch es mal mit weniger als 1000 Zeichen!",
+            "Mehr als 1000 Zeichen gehen da leider nicht. Versuch es nochmal!",
+            "Ich sehe schon, du willst dich ausdrücken, aber mehr als 1000 Zeichen sind nicht erlaubt!",
         ]
     ],
     "ChannelNotFound": [
