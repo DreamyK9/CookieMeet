@@ -32,7 +32,7 @@ export class DialogManager {
     }
 }
 
-export const EventCreationDialog = new DialogManager({
+export const eventCreationDialog = new DialogManager({
     "greeting": [
         "Du willst also ein Event erstellen... Na dann leg mal los!",
     ],
@@ -155,35 +155,35 @@ export const EventCreationDialog = new DialogManager({
     ],
     "MultipleChannelsFound": [
         [
-            "",
+            "Es gibt mehrere Kanäle mit diesem Namen! Da kann ich nicht wissen, welchen du meinst!",
         ],
         [
-            "",
+            "Es tut mir leid, aber mehrere Kanäle mit demselben Namen übersteigen meine Vorstellungskraft!",
         ],
         [
-            "",
+            "Du wirst wohl einen der Kanäle löschen müssen, denn ich kann mich nicht entscheiden!",
         ]
     ],
     "NotAVoiceChannel": [
         [
-            "",
+            "Das ist kein Voice-Channel! Events können nur in Voice-Channels stattfinden!",
         ],
         [
-            "",
+            "Immernoch kein Voice-Channel!",
         ],
         [
-            "",
+            "Zum dritten und letzten Mal... Das ist kein Voice-Channel!",
         ]
     ],
         "UsersNotFound": [
         [
-            "",
+            "Du kannst nur Leute einladen, die auf diesem Server sind! Erwähne sie ganz einfach mit @*Nutzername*!",
         ],
         [
-            "",
+            "Nur Nutzer von diesem Server!",
         ],
         [
-            "",
+            "Wie oft soll ich es noch sagen? Nur Nutzer von diesem Server können eingeladen werden!",
         ]
     ]
 });
