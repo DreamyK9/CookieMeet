@@ -166,7 +166,6 @@ export class EventConversation extends Conversation {
                 this._3_startTime();
             }
         }
-        
     }
 
     private async _4_endTime() {
@@ -217,16 +216,16 @@ export class EventConversation extends Conversation {
         // Error handling
         if (channels.size === 0) {
             // TODO: Replace with user friendly error message
-            throw new Error(`There is no channel called ${answer.content} on this server!`);
+            this.thread.send(`I'm sorry, but there is no channel called ${answer.content} on this server!`)
         }
         if (channels.size > 1) {
             // TODO: Replace with letting the user choose from a list of channels
-            throw new Error(`There are multiple channels called ${answer.content} on this server!`);
+            this.thread.send(`There are multiple channels called ${answer.content} on this server!`);
         }
         channels.forEach(channel => {
             if (channel.type !== ChannelType.GuildVoice) {
                 // TODO: Replace with user friendly error message
-                throw new Error("The provided channel is not a voice channel!");
+                this.thread.send("The provided channel is not a voice channel!");
             }
         });
 
@@ -239,7 +238,7 @@ export class EventConversation extends Conversation {
         const users = answer.mentions.users;
 
         if (users.size === 0) {
-            throw new Error(`The mentioned users, if any are not on this server!`);
+            this.thread.send(`You didn't mention anyone! Use the @ symbol to mention users, I should invite to the event!`);
         }
 
         this._event.participants = Array.from(users.values());
@@ -249,13 +248,21 @@ export class EventConversation extends Conversation {
         this.thread.send(`Please confirm that the following information is correct:\n${this._event.print()}`);
         const answer = await this.collectMessage();
 
-        // TODO: Rework this AI-written mess
-        if (answer.content.toLowerCase() === "yes") {
-            this.thread.send("Great! I will now create the event!");
-            this._event.create();
-        } else {
-            this.thread.send("Okay, I will cancel the event creation process!");
-            this.thread.send("Closing this thread in 5 seconds...");
+        const userMsg = answer.content.toLowerCase();
+        // eslint-disable-next-line no-constant-condition
+        while (true) {
+            if (["yes", "y", "ja", "yo", "jap"].find(item => {return userMsg === item;})) {
+                this.thread.send("Great! I will now create the event!");
+                this._event.create();
+                break;
+            } else if (["no", "n", "nein", "nope", "ney"].find(item => {return userMsg === item;})) {
+                // TODO: Give the option to edit the event
+                this.thread.send("Okay, I will cancel the event creation process!");
+                this.thread.send("Closing this thread in 5 seconds...");
+                break;
+            } else {
+                this.thread.send("I don't get it. Is this a yes or a no?")
+            }
         }
     }
 }
