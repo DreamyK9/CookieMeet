@@ -31,27 +31,42 @@ export class DialogManager {
 export const eventCreationDialog = new DialogManager({
     "greeting": [
         "Du willst also ein Event erstellen... Na dann leg mal los!",
+        "Ein Event? Kein Problem! Fangen wir an!",
+        "Ein Event soll's also sein? Dann  los!",
     ],
     "name": [
         "Wie soll dein Event denn heißen?",
+        "Wie soll ich dein Event nennen?",
+        "Name bitte!",
     ],
     "start": [
         "Interessanter Name... Wann soll's losgehen?",
+        "Wann geht's denn los?",
     ],
     "end": [
         "Und wann soll's wieder vorbei sein?",
+        "Und wann ist Schluss?",
     ],
     "description": [
         "Dann beschreibe dein Event doch mal kurz!",
+        "Wie würdest du dein Event beschreiben?",
+        "Beschreibe dein Event!",
+        "Was soll ich denn in die Beschreibung packen?",
     ],
     "location": [
         "So, jetzt noch der Kanal, wo das Event stattfinden soll!",
+        "Und wo soll das Event stattfinden?",
+        "Dann bräuchte ich noch den Kanal, wo das Event stattfinden soll!",
+        "In welchem Kanal soll das Event stattfinden?"
     ],
     "participants": [
         "Und zu guter Letzt: Wen darf ich alles einladen?",
+        "Und wer darf alles eingeladen werden?",
+        "Soll ich noch wen einladen? Dann rede jetzt oder schweig für immer!",
     ],
     "confirmation": [
         "Alles klar, das würde dann so aussehen:\n{}\nZufrieden damit?",
+        "Wenn ich das richtig verstanden habe, sieht das so aus:\n{}\nPasst das so?",
     ],
 },
 {
@@ -143,6 +158,7 @@ export const eventCreationDialog = new DialogManager({
             "Das ist ein bisschen lang, findest du nicht? Versuch es mal mit weniger als 1000 Zeichen!",
             "Mehr als 1000 Zeichen gehen da leider nicht. Versuch es nochmal!",
             "Ich sehe schon, du willst dich ausdrücken, aber mehr als 1000 Zeichen sind nicht erlaubt!",
+            "Chuck Norris kann Beschreibungen mit mehr als 1000 Zeichen schreiben. Aber du bist nicht Chuck Norris!",
         ]
     ],
     "ChannelNotFound": [
@@ -159,6 +175,7 @@ export const eventCreationDialog = new DialogManager({
     "MultipleChannelsFound": [
         [
             "Es gibt mehrere Kanäle mit diesem Namen! Da kann ich nicht wissen, welchen du meinst!",
+            "Chuck Norris kann in mehreren Kanälen mit dem gleichen Namen gleichzeitig sein, ich aber nicht! Ich brauche einen eindeutigen Kanalnamen!",
         ],
         [
             "Es tut mir leid, aber mehrere Kanäle mit demselben Namen übersteigen meine Vorstellungskraft!",
@@ -170,6 +187,7 @@ export const eventCreationDialog = new DialogManager({
     "NotAVoiceChannel": [
         [
             "Das ist kein Voice-Channel! Events können nur in Voice-Channels stattfinden!",
+            "Chuck Norris kann Events in Text-Channels erstellen. Ich bin nicht Chuck Norris... Ich brauche einen Voice-Channel!"
         ],
         [
             "Immernoch kein Voice-Channel!",
@@ -181,6 +199,7 @@ export const eventCreationDialog = new DialogManager({
         "UsersNotFound": [
         [
             "Du kannst nur Leute einladen, die auf diesem Server sind! Erwähne sie ganz einfach mit @*Nutzername*!",
+            "Chuck Norris kann Leute einladen, indem er an sie denkt. Ich nur Nutzer, die auf diesem Server sind und von dir erwähnt werden!"
         ],
         [
             "Nur Nutzer von diesem Server!",
