@@ -20,6 +20,9 @@ jobs:
       - name: Install packages
         run: yarn install --frozen-lockfile
 
+      - name: Compile Typescript
+        run: npm build
+        
       - name: Add discord bot token
         run: echo ${{ secrets.DISCORD_TOKEN }} > .env
         
