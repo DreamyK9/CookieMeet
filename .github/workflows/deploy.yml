@@ -2,7 +2,7 @@ name: Deploy to Railway
 
 on:
   push:
-    branches: [deploy]
+    branches: [main]
 
 jobs:
   deploy:
@@ -20,6 +20,9 @@ jobs:
       - name: Install packages
         run: yarn install --frozen-lockfile
 
+      - name: Add discord bot token
+        run: echo ${{ secrets.DISCORD_TOKEN }} > .env
+        
       - name: Run tests
         run: yarn test
 
